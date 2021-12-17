@@ -42,13 +42,13 @@ function setup() {
   
   createCanvas(windowWidth,windowHeight);
 
-  //adding the background image
+  // Agregando una imagen de fondo
   bg = createSprite(displayWidth/2-20,displayHeight/2-40,20,20)
 bg.addImage(bgImg)
 bg.scale = 1.1
   
 
-//creating the player sprite
+// Creando el sprite del jugador
 player = createSprite(displayWidth-1150, displayHeight-300, 50, 50);
  player.addImage(shooterImg)
    player.scale = 0.3
@@ -56,7 +56,7 @@ player = createSprite(displayWidth-1150, displayHeight-300, 50, 50);
    player.setCollider("rectangle",0,0,300,300)
 
 
-   //creating sprites to depict lives remaining
+   // Creando sprites para representar la vida restante
    heart1 = createSprite(displayWidth-150,40,20,20)
    heart1.visible = false
     heart1.addImage("heart1",heart1Img)
@@ -72,7 +72,7 @@ player = createSprite(displayWidth-1150, displayHeight-300, 50, 50);
     heart3.scale = 0.4
    
 
-    //creating groups for zombies and bullets
+    // Creando grupos para zombis y balas
     bulletGroup = new Group()
     zombieGroup = new Group()
 
@@ -86,7 +86,7 @@ function draw() {
 
 if(gameState === "fight"){
 
-  //displaying the appropriate image according to lives reamining
+  // Mostrar la imagen apropiada segun la vida restante 
   if(life===3){
     heart3.visible = true
     heart1.visible = false
@@ -103,20 +103,20 @@ if(gameState === "fight"){
     heart2.visible = false
   }
 
-  //go to gameState "lost" when 0 lives are remaining
+  // Ir al estado de juego (gameState) "lost" cuando quedan 0 vidas
   if(life===0){
     gameState = "lost"
     
   }
 
 
-  //go to gameState "won" if score is 100
+  // Ir al estado "won" si la puntuación es 100
   if(score==100){
     gameState = "won"
     winning.play();
   }
 
-  //moving the player up and down and making the game mobile compatible using touches
+  // Moviendo al jugador arriba y abajo. Haciendo el juego móvil y compatible con entrada táctil
 if(keyDown("UP_ARROW")||touches.length>0){
   player.y = player.y-30
 }
@@ -125,7 +125,7 @@ if(keyDown("DOWN_ARROW")||touches.length>0){
 }
 
 
-//release bullets and change the image of shooter to shooting position when space is pressed
+// Liberar las balas y cambiar la imagen del tirador a la posición de disparo cuando la barra espaciadora es presionada
 if(keyWentDown("space")){
   bullet = createSprite(displayWidth-1150,player.y-30,20,10)
   bullet.velocityX = 20
@@ -138,19 +138,19 @@ if(keyWentDown("space")){
   explosionSound.play();
 }
 
-//player goes back to original standing image once we stop pressing the space bar
+// Eñ jugador regresa a la posición original una vez que se deja de presionar la barra espaciadora
 else if(keyWentUp("space")){
   player.addImage(shooterImg)
 }
 
-//go to gameState "bullet" when player runs out of bullets
+// Ir al estado de juego "bullet" cuando el jugador se queda sin balas
 if(bullets==0){
   gameState = "bullet"
   lose.play();
     
 }
 
-//destroy the zombie when bullet touches it and increase score
+// Destruir al zombi cuando una bala lo toca e incrementar la puntuación
 if(zombieGroup.isTouching(bulletGroup)){
   for(var i=0;i<zombieGroup.length;i++){     
       
@@ -165,7 +165,7 @@ if(zombieGroup.isTouching(bulletGroup)){
   }
 }
 
-//reduce life and destroy zombie when player touches it
+// Reducir la vida y destruir al zombi cuando el jugador lo toca
 if(zombieGroup.isTouching(player)){
  
    lose.play();
@@ -182,7 +182,7 @@ if(zombieGroup.isTouching(player)){
  }
 }
 
-//calling the function to spawn zombies
+// Llamar la función para generar zombis
 enemy();
 }
 
@@ -191,41 +191,41 @@ enemy();
 
 drawSprites();
 
-//displaying the score and remaining lives and bullets
+// Mostrar la puntuación, las vidas y balas restantes 
 textSize(20)
-  fill("white")
-text("Bullets = " + bullets,displayWidth-210,displayHeight/2-250)
-text("Score = " + score,displayWidth-200,displayHeight/2-220)
-text("Lives = " + life,displayWidth-200,displayHeight/2-280)
+fill("white")
+text("Balas = " + bullets,displayWidth-200,displayHeight/2-250)
+text("Puntuación = " + score,displayWidth-200,displayHeight/2-220)
+text("Vidas = " + life,displayWidth-200,displayHeight/2-280)
 
-//destroy zombie and player and display a message in gameState "lost"
+// Destruir al zombi y al jugador y mostrar el mensaje en el estado de juego "lost"
 if(gameState == "lost"){
   
   textSize(100)
   fill("red")
-  text("You Lost ",400,400)
+  text("Perdiste",displayWidth/2,displayHeight/2)
   zombieGroup.destroyEach();
   player.destroy();
 
 }
 
-//destroy zombie and player and display a message in gameState "won"
+// Destruir al zombi y al jugador y mostrar el mensaje del estado de juego "won"
 else if(gameState == "won"){
  
   textSize(100)
   fill("yellow")
-  text("You Won ",400,400)
+  text("Ganaste",displayWidth/2,displayHeight/2)
   zombieGroup.destroyEach();
   player.destroy();
 
 }
 
-//destroy zombie, player and bullets and display a message in gameState "bullet"
+// Destruir al zombi, jugador y balas y mostrar el mensaje en el estado de juego "bullet"
 else if(gameState == "bullet"){
  
   textSize(50)
   fill("yellow")
-  text("You ran out of bullets!!!",470,410)
+  text("¡Te quedaste sin balas!",displayWidth/2,displayHeight/2)
   zombieGroup.destroyEach();
   player.destroy();
   bulletGroup.destroyEach();
@@ -235,11 +235,11 @@ else if(gameState == "bullet"){
 }
 
 
-//creating function to spawn zombies
+// Creando la función para generar zombis
 function enemy(){
   if(frameCount%50===0){
 
-    //giving random x and y positions for zombie to appear
+    // Dando posiciones "x" e "y" aleatorias cuando aparecen los zombis
     zombie = createSprite(random(500,1100),random(100,500),40,40)
 
     zombie.addImage(zombieImg)
