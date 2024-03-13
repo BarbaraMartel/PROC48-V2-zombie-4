@@ -15,7 +15,7 @@ var heart1, heart2, heart3
 
 var gameState = "fight"
 
-var lose, winning, explosionSound;
+//variables
 
 
 function preload(){
@@ -31,9 +31,8 @@ function preload(){
 
   bgImg = loadImage("assets/bg.jpeg")
 
-  lose = loadSound("assets/lose.mp3")
-  winning = loadSound("assets/win.mp3")
-  explosionSound = loadSound("assets/explosion.mp3")
+  //cargar sonidos
+  
 
 }
 
@@ -113,7 +112,8 @@ if(gameState === "fight"){
   // Ir al estado "won" si la puntuación es 100
   if(score==100){
     gameState = "won"
-    winning.play();
+    //reproducir sonido
+    
   }
 
   // Moviendo al jugador arriba y abajo. Haciendo el juego móvil y compatible con entrada táctil
@@ -135,7 +135,9 @@ if(keyWentDown("space")){
   player.depth = player.depth+2
   player.addImage(shooter_shooting)
   bullets = bullets-1
-  explosionSound.play();
+
+  //reproducir sonido
+  
 }
 
 // Eñ jugador regresa a la posición original una vez que se deja de presionar la barra espaciadora
@@ -146,7 +148,8 @@ else if(keyWentUp("space")){
 // Ir al estado de juego "bullet" cuando el jugador se queda sin balas
 if(bullets==0){
   gameState = "bullet"
-  lose.play();
+
+  //reproducir sonido
     
 }
 
@@ -157,7 +160,7 @@ if(zombieGroup.isTouching(bulletGroup)){
    if(zombieGroup[i].isTouching(bulletGroup)){
         zombieGroup[i].destroy()
         bulletGroup.destroyEach()
-        explosionSound.play();
+        //reproducir sonido
  
         score = score+2
         } 
@@ -168,7 +171,7 @@ if(zombieGroup.isTouching(bulletGroup)){
 // Reducir la vida y destruir al zombi cuando el jugador lo toca
 if(zombieGroup.isTouching(player)){
  
-   lose.play();
+  //reproducir sonido
  
 
  for(var i=0;i<zombieGroup.length;i++){     
@@ -192,11 +195,7 @@ enemy();
 drawSprites();
 
 // Mostrar la puntuación, las vidas y balas restantes 
-textSize(20)
-fill("white")
-text("Balas = " + bullets,displayWidth-200,displayHeight/2-250)
-text("Puntuación = " + score,displayWidth-200,displayHeight/2-220)
-text("Vidas = " + life,displayWidth-200,displayHeight/2-280)
+
 
 // Destruir al zombi y al jugador y mostrar el mensaje en el estado de juego "lost"
 if(gameState == "lost"){
